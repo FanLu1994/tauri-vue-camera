@@ -11,21 +11,27 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
+      "all": true,
       "shell": {
         "all": false,
         "open": true
+      },
+      "window": {
+        "startDragging": true
       }
     },
+    "macOSPrivateApi": true,
     "windows": [
       {
         "title": "tauri-vue-camera",
-        "width": 600,
-        "height": 400,
+        "width": 400,
+        "height": 300,
         "center": true,
         "resizable": true,
         "transparent": true,
-        "hiddenTitle": true
+        "hiddenTitle": true,
+        "alwaysOnTop":false,
+        "decorations": false
       }
     ],
     "security": {
@@ -41,7 +47,12 @@
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "macOS": {
+        "entitlements": "Release.entitlements",
+        "exceptionDomain": "",
+        "frameworks": []
+      }
     }
   }
 }
