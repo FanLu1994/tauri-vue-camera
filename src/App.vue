@@ -1,8 +1,6 @@
 <script setup>
-import { useDevicesList } from '@vueuse/core'
-import {onBeforeMount, onMounted, ref} from "vue";
-
-const videoRef = ref(null)
+import {onBeforeMount, onMounted, ref, watchEffect} from 'vue'
+import { useDevicesList, useUserMedia } from '@vueuse/core'
 
 onBeforeMount(async () => {
   await navigator.mediaDevices.getUserMedia({
@@ -11,28 +9,58 @@ onBeforeMount(async () => {
   });
 })
 
+const currentCamera = ref()
+const videoRef = ref()
+const { videoInputs: cameras } = useDevicesList({
+  requestPermissions: true,
+  onUpdated() {
+    if (!cameras.value.find(i => i.deviceId === currentCamera.value)) {
+      currentCamera.value = cameras.value[0].deviceId
+      onCameraChange()
+      }
+    },
+})
+
+const { stream, enabled } = useUserMedia({
+  constraints: { video: { deviceId: currentCamera } },
+})
+
+function onCameraChange() {
+  console.log(currentCamera.value)
+  console.log(cameras.value)
+  if(currentCamera.value){
 
 
-const {
-  devices,
-  videoInputs: cameras,
-  audioInputs: microphones,
-  audioOutputs: speakers,
-} = useDevicesList()
+    let constraints = { video: { deviceId: currentCamera.value } }
+
+    navigator.mediaDevices
+        .getUserMedia({ video: constraints, audio: false })
+        .then(function (stream) {
+          videoRef.value.srcObject = stream;
+          videoRef.value.play();
+          // videoRef.value.addEventListener("canplay", onVideoCanPlay, false);
+        });
+  }
+}
 
 onMounted(()=>{
-
+  if(cameras.value.length > 0){
+    currentCamera.value = cameras.value[0].deviceId
+    onCameraChange()
+  }
 })
+
 
 </script>
 
 <template>
   <div class="container" data-tauri-drag-region>
-    <video ref="videoRef" class="video"></video>
+<!--    <video ref="videoRef" class="video"></video>-->
+    <video ref="videoRef" muted autoplay class="h-100 w-auto video" data-tauri-drag-region/>
 
     <div class="settings">
       <div>
-        <select>
+        <select v-model="currentCamera" @change="onCameraChange">
           <option v-for="camera in cameras" :key="camera.deviceId" :value="camera.deviceId">
             {{ camera.label }}
           </option>
