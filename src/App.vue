@@ -29,10 +29,7 @@ function onCameraChange() {
   console.log(currentCamera.value)
   console.log(cameras.value)
   if(currentCamera.value){
-
-
     let constraints = { video: { deviceId: currentCamera.value } }
-
     navigator.mediaDevices
         .getUserMedia({ video: constraints, audio: false })
         .then(function (stream) {
@@ -50,15 +47,25 @@ onMounted(()=>{
   }
 })
 
+const shape = ref('rectangle')
+const onChangeShape = () => {
+  shape.value = shape.value === 'rectangle' ? 'circle' : 'rectangle'
+}
 
 </script>
 
 <template>
   <div class="container" data-tauri-drag-region>
 <!--    <video ref="videoRef" class="video"></video>-->
-    <video ref="videoRef" muted autoplay class="h-100 w-auto video" data-tauri-drag-region/>
+    <video ref="videoRef" muted autoplay class="h-100 w-auto video"
+           :class="shape==='circle'?'circle':'rectangle'"
+           data-tauri-drag-region/>
 
     <div class="settings">
+      <div @click="onChangeShape">
+        切换形状
+      </div>
+
       <div>
         <select v-model="currentCamera" @change="onCameraChange">
           <option v-for="camera in cameras" :key="camera.deviceId" :value="camera.deviceId">

@@ -24,8 +24,8 @@
     "windows": [
       {
         "title": "tauri-vue-camera",
-        "width": 400,
-        "height": 300,
+        "width": 300,
+        "height": 200,
         "center": true,
         "resizable": true,
         "transparent": true,
