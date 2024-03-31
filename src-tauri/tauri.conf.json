@@ -30,7 +30,7 @@
         "resizable": true,
         "transparent": true,
         "hiddenTitle": true,
-        "alwaysOnTop":false,
+        "alwaysOnTop":true,
         "decorations": false
       }
     ],

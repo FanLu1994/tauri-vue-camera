@@ -27,17 +27,36 @@
   justify-content: center;
 }
 
+.container:hover .settings{
+  transform: translateY(0px);
+}
+
+.container:hover .close-btn{
+  visibility: visible;
+}
+
 .settings{
   width: 100%;
-  height: 20px;
+  height: 30px;
   position: absolute;
-  bottom: 10px;
-  background: transparent;
+  bottom: 0px;
+  background: rgba(255, 255, 255, 0.5);
   display: flex;
   justify-content: center;
   align-content: center;
+  padding: 2px 5px;
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  transition: all .5s;
+  transform: translateY(30px);
   /*border-radius: 0 0 10px 10px;*/
+}
 
+.settings div{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: 0 5px ;
 }
 
 .video{
@@ -47,8 +66,11 @@
   /*border-radius: 400px;*/
   border-radius: 10px;
   cursor: move;
-  transform: rotateY(180deg);
   object-fit: cover; /* 保持视频比例并填充整个容器 */
+}
+
+.video.mirror{
+  transform: rotateY(180deg);
 }
 
 .video.circle{
@@ -60,4 +82,14 @@
 
 select{
   width: 50%;
+}
+
+.close-btn{
+  position: absolute;
+  cursor: pointer;
+  left: 50%;
+  top:5px;
+  transform: translateX(-50%);
+  z-index: 999;
+  visibility: hidden;
 }
