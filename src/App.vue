@@ -3,7 +3,7 @@ import {onBeforeMount, onMounted, ref, watchEffect} from 'vue'
 import { useDevicesList, useUserMedia } from '@vueuse/core'
 import HoverSelect from "./components/HoverSelect.vue";
 import {CameraOne,Round,RectangleOne,FlipHorizontally,Power} from "@icon-park/vue-next";
-
+import { invoke } from '@tauri-apps/api/tauri'
 
 onBeforeMount(async () => {
   await navigator.mediaDevices.getUserMedia({
@@ -60,15 +60,15 @@ const onChangeShape = () => {
 const mirror = ref(true)
 
 // 关闭程序
-const onClose = () => {
-
+const onClose = async () => {
+  await invoke('close', {})
 }
 
 </script>
 
 <template>
   <div class="container" data-tauri-drag-region>
-    <power theme="outline" size="24" fill="#ef4444" class="close-btn"/>
+    <power theme="outline" size="24" fill="#ef4444" class="close-btn" @click="onClose"/>
 
 <!--    <video ref="videoRef" class="video"></video>-->
     <video ref="videoRef" muted autoplay class="h-100 w-auto video"
