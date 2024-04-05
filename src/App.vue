@@ -17,7 +17,9 @@ onMounted(()=>{
   // 获取特定参数的值
   const paramValue = params.get('second');
   console.log('参数值:', paramValue);
-  second.value = paramValue
+  if(paramValue){
+    second.value = paramValue
+  }
 })
 
 onBeforeMount(async () => {
@@ -80,11 +82,15 @@ const onClose = async () => {
 }
 
 // 打开新窗口
+let win;
 const onOpen = async () => {
-  let win = new WebviewWindow("Second",
+  if (win){
+    win.close()
+  }
+  win = new WebviewWindow("Second",
       {
         label: 'Second',
-        title: '第二个窗口',
+        title: '副窗口',
         url: '/?second=1',
         width: 300,
         height: 200,
@@ -106,21 +112,25 @@ const onOpen = async () => {
   })
 }
 
+const closeWin = async()=>{
+}
+
 </script>
 
 <template>
   <div class="container" data-tauri-drag-region>
-    <power theme="outline" size="24" fill="#ef4444" class="close-btn" @click="onClose"/>
-    {{second}}
+    <power theme="outline" size="24" fill="#ef4444" class="close-btn"
+           v-show="second===''"
+           @click="onClose"/>
 <!--    <video ref="videoRef" class="video"></video>-->
     <video ref="videoRef" muted autoplay class="h-100 w-auto video"
            :class="{'circle':shape==='circle','rectangle':shape==='rectangle','mirror':mirror?'mirror':''}"
            data-tauri-drag-region/>
 
-    <div class="settings">
+    <div class="settings" :style="{background:shape==='circle'?'transparent':''}">
       <div @click="onChangeShape" title="形状切换">
-        <round v-show="shape==='rectangle'" theme="outline" size="24" fill="#334155"/>
-        <rectangle-one v-show="shape==='circle'" theme="outline" size="24" fill="#334155"/>
+        <round v-show="shape==='rectangle'" theme="outline" size="24" fill="#051e28"/>
+        <rectangle-one v-show="shape==='circle'" theme="outline" size="24" fill="#002b39"/>
       </div>
 
       <div>
@@ -131,17 +141,17 @@ const onOpen = async () => {
 <!--        </select>-->
         <hover-select :options="cameras" @change="onCameraChange" label="label" value="deviceId" >
           <template #icon>
-            <camera-one theme="outline" size="24" fill="#334155"/>
+            <camera-one theme="outline" size="24" fill="#004650"/>
           </template>
         </hover-select>
       </div>
 
       <div @click="mirror=!mirror" title="镜像">
-        <flip-horizontally theme="outline" size="24" fill="#334155"/>
+        <flip-horizontally theme="outline" size="24" fill="#005b55"/>
       </div>
 
-      <div @click="onOpen" title="新开窗口">
-        <copy theme="outline" size="24" fill="#334155"/>
+      <div @click="onOpen" title="新开窗口" v-show="second===''">
+        <copy theme="outline" size="24" fill="#005b55"/>
       </div>
 
     </div>

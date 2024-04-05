@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "tauri-vue-camera",
-    "version": "0.0.0"
+    "version": "0.1.0"
   },
   "tauri": {
     "allowlist": {
@@ -41,13 +41,13 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.fanlu.dev",
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
+        "icons/camera32x32.png",
+        "icons/camera128x128.png",
+        "icons/camera256x256.png",
         "icons/icon.icns",
-        "icons/icon.ico"
+        "icons/camera.ico"
       ],
       "macOS": {
         "entitlements": "Release.entitlements",
