@@ -24,6 +24,7 @@
     "windows": [
       {
         "title": "tauri-vue-camera",
+        "label": "tauri-vue-camera",
         "width": 300,
         "height": 200,
         "center": true,
