@@ -9,15 +9,26 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn close(){
+    // 随便打印一句话
+    println!("close the window");
     std::process::exit(0);
+}
+use tauri::Manager;
+
+// 打开label为second的窗口,show改为true
+#[tauri::command]
+fn open_second_window(window: tauri::Window){
+    let win = window.get_window("second").unwrap();
+    if win.is_visible().unwrap() {
+            win.hide().unwrap();
+        } else {
+            win.show().unwrap();
+        }
 }
 
 fn main() {
-
-
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
-        .invoke_handler(tauri::generate_handler![close])
+        .invoke_handler(tauri::generate_handler![greet,close,open_second_window])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

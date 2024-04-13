@@ -11,12 +11,10 @@ const second = ref("")
 onMounted(()=>{
   // 获取当前页面的 URL
   const url = window.location.href;
-  console.log(url)
   // 创建 URLSearchParams 对象，用于处理 URL 查询参数
   const params = new URLSearchParams(new URL(url).search);
   // 获取特定参数的值
   const paramValue = params.get('second');
-  console.log('参数值:', paramValue);
   if(paramValue){
     second.value = paramValue
   }
@@ -78,43 +76,14 @@ const mirror = ref(true)
 
 // 关闭程序
 const onClose = async () => {
-  await invoke('close', {})
+  await invoke('close')
 }
 
 // 打开新窗口
 let win;
 const onOpen = async () => {
-  if (win){
-    win.close()
-  }
-  win = new WebviewWindow("Second",
-      {
-        label: 'Second',
-        title: '副窗口',
-        url: '/?second=1',
-        width: 300,
-        height: 200,
-        resizable: true,
-        alwaysOnTop: false,
-        transparent:true,
-        hiddenTitle:true,
-        decorations:false,
-      }
-  )
-
-  // 窗口创建完毕/失败
-  win.once('tauri://created', async() => {
-    console.log('window create success!')
-  })
-
-  win.once('tauri://error', async() => {
-    console.log('window create error!')
-  })
+  await invoke('open_second_window')
 }
-
-const closeWin = async()=>{
-}
-
 </script>
 
 <template>

@@ -33,6 +33,20 @@
         "hiddenTitle": true,
         "alwaysOnTop":true,
         "decorations": false
+      },
+      {
+        "title": "tauri-vue-camera",
+        "label": "second",
+        "width": 300,
+        "height": 200,
+        "center": false,
+        "resizable": true,
+        "transparent": true,
+        "hiddenTitle": true,
+        "alwaysOnTop":true,
+        "decorations": false,
+        "visible": false,
+        "url": "index.html?second=1"
       }
     ],
     "security": {
